@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Credit Card Fraud Detector</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  <style>
+    body {
+      margin: 0;
+      height: 100vh;
+      font-family: 'Segoe UI', sans-serif;
+      display: flex;
+      overflow: hidden;
+    }
+
+    .split {
+      width: 50%;
+      height: 100vh;
+    }
+
+    .left {
+      background: linear-gradient(135deg, #5f2c82, #49a09d);
+      color: #fff;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 50px;
+      animation: fadeInLeft 1s ease-in-out;
+    }
+
+    .left img {
+      width: 250px;
+      margin-bottom: 20px;
+      animation: float 4s ease-in-out infinite;
+    }
+
+    .right {
+      background: #1f1f1f;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      animation: fadeInRight 1s ease-in-out;
+    }
+
+    .card {
+      background: #ffffff;
+      border: none;
+      border-radius: 20px;
+      padding: 30px;
+      width: 100%;
+      max-width: 450px;
+    }
+
+    .btn-primary {
+      background-color: #5f2c82;
+      border: none;
+    }
+
+    .btn-primary:hover {
+      background-color: #4b226c;
+    }
+
+    .alert-info {
+      background-color: #e0f7fa;
+      color: #00796b;
+      border: none;
+    }
+
+    @keyframes fadeInLeft {
+      from { transform: translateX(-100px); opacity: 0; }
+      to { transform: translateX(0); opacity: 1; }
+    }
+
+    @keyframes fadeInRight {
+      from { transform: translateX(100px); opacity: 0; }
+      to { transform: translateX(0); opacity: 1; }
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0px); }
+      50% { transform: translateY(-15px); }
+
+      .no-animate .left,
+      .no-animate .right,
+      .no-animate .left img {
+        animation: none !important;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="split left">
+    <img src="{{ url_for('static', filename='images/card.png') }}" alt="Credit Card">
+    <h1 class="display-5 fw-bold">Credit Card Fraud Detector</h1>
+    <p class="mt-3 fs-5">
+      Detect suspicious transactions using real-time machine learning predictions.
+    </p>
+    <ul class="mt-4 fs-6 text-start" style="max-width: 400px;">
+      <li>✅ Analyze amount, time, merchant & more</li>
+      <li>🛡️ Get instant fraud risk assessment</li>
+      <li>⚡ Powered by a trained AI model</li>
+    </ul>
+  </div>
+
+  <div class="split right">
+    <div class="card shadow-lg">
+      <h4 class="text-center mb-4">🔍 Check Transaction</h4>
+      <form method="POST">
+        <div class="mb-3">
+          <label>Amount</label>
+          <input type="number" step="0.01" name="amt" class="form-control" required>
+        </div>
+        <div class="mb-3">
+          <label>Gender</label>
+          <select name="gender" class="form-select" required>
+            <option value="F">Female</option>
+            <option value="M">Male</option>
+          </select>
+        </div>
+        <div class="mb-3">
+          <label>Category</label>
+          <input type="text" name="category" class="form-control" placeholder="e.g. grocery_pos" required>
+        </div>
+        <div class="mb-3">
+          <label>Merchant</label>
+          <input type="text" name="merchant" class="form-control" placeholder="e.g. fraud_Kris-Kertzmann" required>
+        </div>
+        <div class="mb-3">
+          <label>Hour</label>
+          <input type="number" name="hour" class="form-control" min="0" max="23" required>
+        </div>
+        <div class="mb-3">
+          <label>Day</label>
+          <input type="number" name="day" class="form-control" min="1" max="31" required>
+        </div>
+        <button type="submit" class="btn btn-primary w-100">Predict Fraud</button>
+      </form>
+
+      {% if prediction %}
+        <div class="alert alert-info mt-4 text-center">
+          Prediction: <strong>{{ prediction }}</strong>
+        </div>
+      {% endif %}
+    </div>
+  </div>
+</body>
+</html>
